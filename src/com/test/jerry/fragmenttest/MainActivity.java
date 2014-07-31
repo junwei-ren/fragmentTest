@@ -8,16 +8,18 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
-public class MainActivity extends Activity implements RadioGroup.OnCheckedChangeListener{
+public class MainActivity extends Activity implements RadioGroup.OnCheckedChangeListener, OnClickListener{
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -37,6 +39,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 	ViewPager mViewPager;
 	RadioGroup mRadioGroup;
 	ArrayList<Integer> mTabId;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,6 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the activity.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -147,9 +149,9 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 		@Override
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
-			// Return a PlaceholderFragment (defined as a static inner class
-			// below).
-			return PlaceholderFragment.newInstance(position);
+			PlaceholderFragment view = PlaceholderFragment.newInstance(position+1);
+			view.setBtnListener(MainActivity.this);
+			return view;
 		}
 
 		@Override
@@ -172,54 +174,50 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 		}
 	}
 
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		private static final String ARG_SECTION_NUMBER = "section_number";
-		private static Fragment mFragments[] = new Fragment[TAB_NUM]; 
-		private int mPosition;
-		/**
-		 * Returns a new instance of this fragment for the given section number.
-		 */
-		public static PlaceholderFragment newInstance(int sectionNumber) {
-			Log.d(TAG, "sectionNumber: "+sectionNumber);
-
-			if(mFragments[sectionNumber] == null) {
-				PlaceholderFragment fragment = new PlaceholderFragment(sectionNumber);
-				mFragments[sectionNumber] = fragment;
-//				Bundle args = new Bundle();
-//				args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-//				fragment.setArguments(args);
-			
-				return fragment;
-			} else {
-				return (PlaceholderFragment) mFragments[sectionNumber];
-			}
-		}
-
-		private PlaceholderFragment(int position) {
-			mPosition = position;
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			int layoutId[] = {R.layout.fragment1,R.layout.fragment2,R.layout.fragment3};
-			View rootView = inflater.inflate(layoutId[mPosition], container,
-					false);
-			return rootView;
-		}
-	}
-
+	
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		// TODO Auto-generated method stub
 		mViewPager.setCurrentItem(findPositionByRadioButtonId(checkedId));
 	}
 
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		int id = v.getId();
+		switch(id) {
+		case 1:
+			gotoFragment(11);
+			break;
+		case 2:
+			gotoFragment(21);
+			break;
+		case 3:
+			
+			break;
+		case 11:
+			gotoFragment(111);
+			break;
+		case 21:
+			gotoFragment(11);
+			break;
+		case 111:
+			gotoFragment(3);
+			break;
+		}
+	}
+	public void gotoFragment(int position) {
+	    FragmentManager fm = getFragmentManager();
+	    FragmentTransaction ft = fm.beginTransaction();
+	    String tag = new StringBuilder().append(position).toString();
+	    Fragment target = fm.findFragmentByTag(tag);
+	    if(target == null) {
+	    	PlaceholderFragment view = PlaceholderFragment.newInstance(position);
+			view.setBtnListener(MainActivity.this);
+			target = view;
+	    }
+	    ft.replace(R.id.pager, target);
+	    ft.addToBackStack(null);
+	    ft.commit();
+	}
 }
