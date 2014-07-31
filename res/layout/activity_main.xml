@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <android.support.v4.view.ViewPager
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0"
+        tools:context="com.test.jerry.fragmenttest.MainActivity" />
+     <RadioGroup
+        android:id="@+id/tabs_rg"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="#D0D0D0"
+        android:paddingBottom="2px">
+
+        <RadioButton
+            android:id="@+id/tab_rb_a"
+            android:layout_width="0dp"
+            android:layout_height="60dip"
+            android:layout_weight="1.0"
+            android:background="@drawable/selector_tab"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/my_shop"
+            android:paddingBottom="10dip"
+            android:textSize="20sp" />
+
+        <RadioButton
+            android:id="@+id/tab_rb_b"
+            android:layout_width="0dp"
+            android:layout_height="60dip"
+            android:layout_weight="1.0"
+            android:background="@drawable/selector_tab"
+            android:button="@null"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/my_task"
+            android:paddingBottom="10dip"
+            android:textSize="20sp" 
+            android:layout_marginLeft="5dip"/>
+
+        <RadioButton
+            android:id="@+id/tab_rb_c"
+            android:layout_width="0dp"
+            android:layout_height="60dip"
+            android:layout_weight="1.0"
+            android:background="@drawable/selector_tab"
+            android:button="@null"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/settings"
+            android:paddingBottom="10dip"
+            android:textSize="20sp" 
+            android:layout_marginLeft="5dip"/>
+    </RadioGroup>
+
+</LinearLayout>
